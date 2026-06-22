@@ -1,0 +1,5 @@
+#compdef jco
+
+_arguments \
+  "1:issue or text containing ticket:" \
+  "2:branch title:"

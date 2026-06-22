@@ -1,0 +1,5 @@
+#compdef gpp
+
+_arguments \
+  "-d[create draft pull request]" \
+  "-h[show usage]"
