@@ -43,7 +43,7 @@ Related to TSKFRMRVR-123
 Clone the plugin into the custom plugins directory:
 
 ```zsh
-git clone <repo-url> "${ZSH_CUSTOM:-$HOME/.oh-my-zsh/custom}/plugins/gitverse"
+git clone https://github.com/light-flight/gitverse-zsh "${ZSH_CUSTOM:-$HOME/.oh-my-zsh/custom}/plugins/gitverse"
 ```
 
 Enable it in `~/.zshrc`:
@@ -63,7 +63,7 @@ source ~/.zshrc
 Clone the repository anywhere and source the plugin:
 
 ```zsh
-git clone <repo-url> "$HOME/.config/gitverse-zsh"
+git clone https://github.com/light-flight/gitverse-zsh "$HOME/.config/gitverse-zsh"
 echo 'source "$HOME/.config/gitverse-zsh/gitverse.plugin.zsh"' >> ~/.zshrc
 source ~/.zshrc
 ```
