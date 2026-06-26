@@ -28,14 +28,6 @@ For branch `TSKFRMRVR-123/fix-workspace-export`, the PR title will be:
 [TSKFRMRVR-123] fix workspace export
 ```
 
-The PR body will include:
-
-```text
-Closes #123
-
-Related to TSKFRMRVR-123
-```
-
 ## Installation
 
 ### Oh My Zsh

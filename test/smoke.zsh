@@ -47,7 +47,7 @@ remote_parts=("${(@f)$(__gitverse_parse_remote "https://gitverse.ru/team/repo.gi
 assert_eq "${remote_parts[1]}" "team" "parses HTTPS remote owner"
 assert_eq "${remote_parts[2]}" "repo" "parses HTTPS remote repo"
 
-payload="$(__gitverse_pr_payload "[TSKFRMRVR-42] fix workspace export" "TSKFRMRVR-42/fix-workspace-export" "main" "Closes #42")"
+payload="$(__gitverse_pr_payload "[TSKFRMRVR-42] fix workspace export" "TSKFRMRVR-42/fix-workspace-export" "main")"
 payload_title="$(GV_PAYLOAD="$payload" python3 - <<'PY'
 import json
 import os

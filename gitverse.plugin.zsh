@@ -108,25 +108,12 @@ __gitverse_base_branch() {
   printf "%s\n" "$base_branch"
 }
 
-__gitverse_pr_body() {
-  local ticker="$1"
-  local issue_number
-
-  if [[ -z "$ticker" ]]; then
-    return 0
-  fi
-
-  issue_number="${ticker##*-}"
-  printf "Closes #%s\n\nRelated to %s" "$issue_number" "$ticker"
-}
-
 __gitverse_pr_payload() {
   local title="$1"
   local head="$2"
   local base="$3"
-  local body="$4"
 
-  GV_TITLE="$title" GV_HEAD="$head" GV_BASE="$base" GV_BODY="$body" python3 - <<'PY'
+  GV_TITLE="$title" GV_HEAD="$head" GV_BASE="$base" python3 - <<'PY'
 import json
 import os
 
@@ -135,10 +122,6 @@ payload = {
     "head": os.environ["GV_HEAD"],
     "base": os.environ["GV_BASE"],
 }
-
-body = os.environ.get("GV_BODY")
-if body:
-    payload["body"] = body
 
 print(json.dumps(payload))
 PY
@@ -197,7 +180,7 @@ jco() {
 }
 
 gpp() {
-  local branch ticker branch_title pr_title pr_body draft
+  local branch ticker branch_title pr_title draft
   local remote_url owner repo base_branch payload response_file response_body http_status pr_url
   local curl_status option remote_parse_output remote_parts
   local OPTIND=1
@@ -255,7 +238,6 @@ gpp() {
   ticker="$(__gitverse_ticket "$branch")"
   branch_title="$(__gitverse_branch_title "$branch")"
   pr_title="$branch_title"
-  pr_body="$(__gitverse_pr_body "$ticker")"
 
   if [[ -n "$ticker" ]]; then
     pr_title="[$ticker] $pr_title"
@@ -266,7 +248,7 @@ gpp() {
   fi
 
   base_branch="$(__gitverse_base_branch)"
-  payload="$(__gitverse_pr_payload "$pr_title" "$branch" "$base_branch" "$pr_body")"
+  payload="$(__gitverse_pr_payload "$pr_title" "$branch" "$base_branch")"
 
   if [[ "$GITVERSE_SKIP_PUSH" != "1" ]]; then
     git push -u origin HEAD || return $?
