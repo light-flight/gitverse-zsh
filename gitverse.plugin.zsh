@@ -18,7 +18,7 @@ if [[ -n "${ZSH_VERSION:-}" ]]; then
 fi
 
 __gitverse_ticket_regex() {
-  printf "%s\n" "${GITVERSE_TICKET_REGEX:-(DTMS|MV|TSKFRMRVR)-[0-9]+}"
+  printf "%s\n" "TSKFRMRVR-[0-9]+"
 }
 
 __gitverse_host() {

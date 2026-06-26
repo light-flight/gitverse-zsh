@@ -83,7 +83,6 @@ Optional settings:
 ```zsh
 export GITVERSE_HOST="gitverse.ru"
 export GITVERSE_API_URL="https://api.gitverse.ru"
-export GITVERSE_TICKET_REGEX="(DTMS|MV|TSKFRMRVR)-[0-9]+"
 export GITVERSE_DEFAULT_BASE_BRANCH="main"
 export GITVERSE_SKIP_PUSH=1
 ```
