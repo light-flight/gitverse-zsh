@@ -40,21 +40,32 @@ else
   __gv_ok "Enabled in plugins"
 fi
 
-if [[ -r /dev/tty ]]; then
-  __gv_info "Paste your GitVerse token (input hidden), or press Enter to skip:"
+__gitverse_set_manual_hint() {
+  __gv_info "Set your token later with:"
+  print "    security add-generic-password -a \"\$USER\" -s $KEYCHAIN_SERVICE -U -w \"<token>\""
+}
+
+if security find-generic-password -a "$USER" -s "$KEYCHAIN_SERVICE" >/dev/null 2>&1; then
+  __gv_ok "Token already in Keychain (re-run to replace)"
+elif [[ -r /dev/tty ]]; then
+  __gv_info "Paste your GitVerse token (input hidden), then press Enter:"
   IFS= read -rs gv_token </dev/tty || gv_token=""
   print
   if [[ -n "$gv_token" ]]; then
-    security add-generic-password -a "$USER" -s "$KEYCHAIN_SERVICE" -U -w "$gv_token"
+    if security add-generic-password -a "$USER" -s "$KEYCHAIN_SERVICE" -U -w "$gv_token" 2>/dev/null \
+      && security find-generic-password -a "$USER" -s "$KEYCHAIN_SERVICE" >/dev/null 2>&1; then
+      __gv_ok "Token stored in Keychain"
+    else
+      __gv_err "Failed to store token in Keychain"
+      __gitverse_set_manual_hint
+    fi
     unset gv_token
-    __gv_ok "Token stored in Keychain"
   else
-    __gv_info "Skipped token. Set it later with:"
-    print "    security add-generic-password -a \"\$USER\" -s $KEYCHAIN_SERVICE -U -w"
+    __gv_info "No token entered (skipped)."
+    __gitverse_set_manual_hint
   fi
 else
-  __gv_info "Set your token later with:"
-  print "    security add-generic-password -a \"\$USER\" -s $KEYCHAIN_SERVICE -U -w"
+  __gitverse_set_manual_hint
 fi
 
 __gv_ok "Done. Restart your shell or run: source \"$ZSHRC\""
