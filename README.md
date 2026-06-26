@@ -33,40 +33,32 @@ For branch `TSKFRMRVR-123/fix-workspace-export`, the PR title will be:
 Requires [Oh My Zsh](https://ohmyz.sh). One command — idempotent, safe to re-run for updates:
 
 ```zsh
-curl -fsSL https://raw.githubusercontent.com/light-flight/gitverse-zsh/main/install.sh | zsh
-```
-
-Or, from a local clone:
-
-```zsh
-zsh install.sh
+curl -fsSL https://raw.githubusercontent.com/light-flight/gitverse-zsh/main/install.sh | zsh && source ~/.zshrc
 ```
 
 Installs into `custom/plugins/gitverse` and adds `gitverse` to `plugins=(...)` in `~/.zshrc`.
 
+Store your GitVerse token in macOS Keychain — one time, paste token when prompted:
+
+```zsh
+security add-generic-password -a "$USER" -s gitverse-token -w -U
+```
+
+That's it. `gpp` reads the token from Keychain automatically. No `~/.zshrc` edits, nothing in plaintext.
+
 ## Uninstallation
 
 ```zsh
-curl -fsSL https://raw.githubusercontent.com/light-flight/gitverse-zsh/main/uninstall.sh | zsh
-```
-
-Or, from a local clone:
-
-```zsh
-zsh uninstall.sh
+curl -fsSL https://raw.githubusercontent.com/light-flight/gitverse-zsh/main/uninstall.sh | zsh && source ~/.zshrc
 ```
 
 Removes `custom/plugins/gitverse` and `gitverse` from `plugins=(...)` in `~/.zshrc`.
 
 ## Configuration
 
-`GITVERSE_TOKEN` is required for `gpp`.
+`gpp` needs a GitVerse token — set up via macOS Keychain in [Installation](#installation).
 
-```zsh
-export GITVERSE_TOKEN="your-token"
-```
-
-Do not commit tokens to this repository or to shared dotfiles. Prefer a private local file, macOS Keychain, 1Password CLI, `pass`, or your team's secret manager.
+`GITVERSE_TOKEN` (env var) still works as an override and takes precedence over Keychain. To use a different Keychain entry, set `GITVERSE_KEYCHAIN_SERVICE`.
 
 Optional settings:
 

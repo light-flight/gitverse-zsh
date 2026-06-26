@@ -33,4 +33,3 @@ else
 fi
 
 echo "GitVerse plugin uninstalled."
-echo "Restart your shell or run: source \"$ZSHRC\""

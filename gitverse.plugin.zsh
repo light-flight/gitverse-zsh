@@ -33,6 +33,21 @@ __gitverse_default_base_branch() {
   printf "%s\n" "${GITVERSE_DEFAULT_BASE_BRANCH:-master}"
 }
 
+__gitverse_keychain_service() {
+  printf "%s\n" "${GITVERSE_KEYCHAIN_SERVICE:-gitverse-token}"
+}
+
+__gitverse_token() {
+  if [[ -n "$GITVERSE_TOKEN" ]]; then
+    printf "%s\n" "$GITVERSE_TOKEN"
+    return 0
+  fi
+
+  if command -v security >/dev/null 2>&1; then
+    security find-generic-password -a "$USER" -s "$(__gitverse_keychain_service)" -w 2>/dev/null
+  fi
+}
+
 __gitverse_require_command() {
   local command_name="$1"
 
@@ -180,7 +195,7 @@ jco() {
 }
 
 gpp() {
-  local branch ticker branch_title pr_title draft
+  local branch ticker branch_title pr_title draft token
   local remote_url owner repo base_branch payload response_file response_body http_status pr_url
   local curl_status option remote_parse_output remote_parts
   local OPTIND=1
@@ -213,8 +228,10 @@ gpp() {
   __gitverse_require_command python3 || return $?
   __gitverse_require_command curl || return $?
 
-  if [[ -z "$GITVERSE_TOKEN" ]]; then
-    echo "GITVERSE_TOKEN is not set" >&2
+  token="$(__gitverse_token)"
+  if [[ -z "$token" ]]; then
+    echo "GitVerse token not found. Store it once with:" >&2
+    echo "  security add-generic-password -a \"\$USER\" -s gitverse-token -w -U" >&2
     return 1
   fi
 
@@ -255,7 +272,7 @@ gpp() {
   response_file="$(mktemp)"
   http_status="$(curl -sS -o "$response_file" -w "%{http_code}" \
     -X POST "$(__gitverse_api_url)/repos/$owner/$repo/pulls" \
-    -H "Authorization: Bearer $GITVERSE_TOKEN" \
+    -H "Authorization: Bearer $token" \
     -H "Accept: application/vnd.gitverse.object+json;version=1" \
     -H "Content-Type: application/json" \
     -d "$payload")"

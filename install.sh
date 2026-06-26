@@ -30,4 +30,3 @@ if ! grep -q 'plugins=.*gitverse' "$ZSHRC" 2>/dev/null; then
 fi
 
 echo "GitVerse plugin installed."
-echo "Restart your shell or run: source \"$ZSHRC\""
