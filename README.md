@@ -30,35 +30,33 @@ For branch `TSKFRMRVR-123/fix-workspace-export`, the PR title will be:
 
 ## Installation
 
-### Oh My Zsh
-
-Clone the plugin into the custom plugins directory:
+Requires [Oh My Zsh](https://ohmyz.sh). One command — idempotent, safe to re-run for updates:
 
 ```zsh
-git clone https://github.com/light-flight/gitverse-zsh "${ZSH_CUSTOM:-$HOME/.oh-my-zsh/custom}/plugins/gitverse"
+curl -fsSL https://raw.githubusercontent.com/light-flight/gitverse-zsh/main/install.sh | zsh
 ```
 
-Enable it in `~/.zshrc`:
+Or, from a local clone:
 
 ```zsh
-plugins=(git gitverse)
+zsh install.sh
 ```
 
-Restart the shell or run:
+Installs into `custom/plugins/gitverse` and adds `gitverse` to `plugins=(...)` in `~/.zshrc`.
+
+## Uninstallation
 
 ```zsh
-source ~/.zshrc
+curl -fsSL https://raw.githubusercontent.com/light-flight/gitverse-zsh/main/uninstall.sh | zsh
 ```
 
-### Without A Plugin Manager
-
-Clone the repository anywhere and source the plugin:
+Or, from a local clone:
 
 ```zsh
-git clone https://github.com/light-flight/gitverse-zsh "$HOME/.config/gitverse-zsh"
-echo 'source "$HOME/.config/gitverse-zsh/gitverse.plugin.zsh"' >> ~/.zshrc
-source ~/.zshrc
+zsh uninstall.sh
 ```
+
+Removes `custom/plugins/gitverse` and `gitverse` from `plugins=(...)` in `~/.zshrc`.
 
 ## Configuration
 
@@ -75,8 +73,7 @@ Optional settings:
 ```zsh
 export GITVERSE_HOST="gitverse.ru"
 export GITVERSE_API_URL="https://api.gitverse.ru"
-export GITVERSE_DEFAULT_BASE_BRANCH="main"
-export GITVERSE_SKIP_PUSH=1
+export GITVERSE_DEFAULT_BASE_BRANCH="master"
 ```
 
 ## Dependencies
@@ -92,17 +89,7 @@ export GITVERSE_SKIP_PUSH=1
 
 ## Updating
 
-Colleagues can update the plugin with:
-
-```zsh
-git -C "${ZSH_CUSTOM:-$HOME/.oh-my-zsh/custom}/plugins/gitverse" pull
-```
-
-or, for a manual install:
-
-```zsh
-git -C "$HOME/.config/gitverse-zsh" pull
-```
+Re-run the install command.
 
 ## Contributing
 

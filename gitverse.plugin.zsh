@@ -30,7 +30,7 @@ __gitverse_api_url() {
 }
 
 __gitverse_default_base_branch() {
-  printf "%s\n" "${GITVERSE_DEFAULT_BASE_BRANCH:-main}"
+  printf "%s\n" "${GITVERSE_DEFAULT_BASE_BRANCH:-master}"
 }
 
 __gitverse_require_command() {
@@ -250,9 +250,7 @@ gpp() {
   base_branch="$(__gitverse_base_branch)"
   payload="$(__gitverse_pr_payload "$pr_title" "$branch" "$base_branch")"
 
-  if [[ "$GITVERSE_SKIP_PUSH" != "1" ]]; then
-    git push -u origin HEAD || return $?
-  fi
+  git push -u origin HEAD || return $?
 
   response_file="$(mktemp)"
   http_status="$(curl -sS -o "$response_file" -w "%{http_code}" \
