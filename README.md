@@ -36,15 +36,7 @@ Requires [Oh My Zsh](https://ohmyz.sh). One command — idempotent, safe to re-r
 curl -fsSL https://raw.githubusercontent.com/light-flight/gitverse-zsh/main/install.sh | zsh && source ~/.zshrc
 ```
 
-Installs into `custom/plugins/gitverse` and adds `gitverse` to `plugins=(...)` in `~/.zshrc`.
-
-Store your GitVerse token in macOS Keychain — one time, paste token when prompted:
-
-```zsh
-security add-generic-password -a "$USER" -s gitverse-token -w -U
-```
-
-That's it. `gpp` reads the token from Keychain automatically. No `~/.zshrc` edits, nothing in plaintext.
+It installs the plugin, enables it in `~/.zshrc`, and prompts you to paste your GitVerse token (stored in macOS Keychain). That's it — `gpp` reads the token from Keychain automatically, nothing in plaintext. Re-run anytime to update.
 
 ## Uninstallation
 
